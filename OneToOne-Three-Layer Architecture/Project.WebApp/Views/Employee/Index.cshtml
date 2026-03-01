@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Project.Data.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary">Employee List (Web Interface)</h2>
+    <hr />
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>ID Card Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@emp.Id</td>
+                    <td>@emp.FirstName</td>
+                    <td>@emp.LastName</td>
+                    <td>@(emp.Card != null ? emp.Card.CardNumber : "No Card")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
