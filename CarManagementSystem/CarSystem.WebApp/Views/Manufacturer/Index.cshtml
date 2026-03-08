@@ -1,0 +1,97 @@
+﻿@model IEnumerable<CarSystem.Data.Models.Manufacturer>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h2 class="text-primary fw-bold">🚗 Car Inventory System</h2>
+        <a asp-action="Create" class="btn btn-success shadow-sm">
+            <strong>+</strong> Register New Manufacturer
+        </a>
+    </div>
+
+    @foreach (var m in Model)
+    {
+        <div class="card mb-4 border-0 shadow-sm">
+            @* --- ХЕДЪР НА ПРОИЗВОДИТЕЛЯ --- *@
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+                <h4 class="mb-0">
+                    <span class="badge bg-light text-primary me-2">ID: @m.Id</span>
+                    @m.Name <small class="opacity-75" style="font-size: 0.7em;">(@m.Country)</small>
+                </h4>
+
+                <div class="btn-group shadow-sm">
+                    @* Добавяне на модел към ТАЗИ марка *@
+                    <a asp-action="AddModel" asp-route-manufacturerId="@m.Id" class="btn btn-sm btn-success text-white border-white">
+                        <strong>+</strong> Add Model
+                    </a>
+                    @* Редактиране на марката *@
+                    <a asp-action="Edit" asp-route-id="@m.Id" class="btn btn-sm btn-light">
+                        Edit
+                    </a>
+                    @* Изтриване на марката *@
+                    <a asp-action="Delete" asp-route-id="@m.Id" class="btn btn-sm btn-danger"
+                       onclick="return confirm('Are you sure you want to delete @m.Name and all its models?')">
+                        Delete
+                    </a>
+                </div>
+            </div>
+
+            @* --- СПИСЪК С МОДЕЛИ --- *@
+            <div class="card-body bg-light bg-opacity-10">
+                <h6 class="text-muted fw-bold mb-3">Registered Models:</h6>
+                <div class="list-group list-group-flush rounded shadow-sm">
+                    @foreach (var mo in m.Models)
+                    {
+                        <div class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                            <div>
+                                <i class="text-primary me-2">●</i>
+                                <span class="fw-bold text-dark">@mo.Name</span>
+                                <span class="badge rounded-pill bg-info text-dark ms-2">Year: @mo.Year</span>
+                                <small class="text-muted ms-3">#@mo.Id</small>
+                            </div>
+
+                            <div class="btn-group">
+                                <a asp-action="EditModel" asp-route-id="@mo.Id" class="btn btn-sm btn-outline-warning py-0" title="Edit Model">Edit</a>
+                                <a asp-action="DeleteModel" asp-route-id="@mo.Id" class="btn btn-sm btn-outline-danger py-0"
+                                   onclick="return confirm('Delete model @mo.Name?')" title="Delete Model">Delete</a>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!m.Models.Any())
+                    {
+                        <div class="list-group-item text-center py-4 text-muted border-0 bg-transparent">
+                            <p class="mb-0">No models found for @m.Name. Click "+ Add Model" to start.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    /* Малко допълнителен стил за по-добър вид */
+    .card {
+        transition: transform 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+    .btn-group .btn {
+        border-radius: 4px !important;
+        margin-left: 2px;
+    }
+
+    .list-group-item {
+        border-left: 4px solid transparent;
+    }
+
+        .list-group-item:hover {
+            border-left: 4px solid #0d6efd;
+            background-color: #f8f9fa;
+        }
+</style>
+
+

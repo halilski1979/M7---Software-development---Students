@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CarSystem.Data.Models.Manufacturer>
+
+<div class="container mt-5">
+    <h2>Add New Model to Brand</h2>
+    <hr />
+
+    <form asp-action="AddModel" method="post" class="col-md-6">
+        <div class="mb-3">
+            <label class="form-label">Select Brand</label>
+            <select name="manufacturerId" class="form-select" required>
+                <option value="">-- Choose Manufacturer --</option>
+                @foreach (var m in Model)
+                {
+                    <option value="@m.Id">@m.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Model Name</label>
+            <input name="name" class="form-control" placeholder="e.g. Corolla" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Production Year</label>
+            <input name="year" type="number" class="form-control" value="2024" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Link Model to Brand</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
